@@ -1,47 +1,72 @@
-function checkLS() {
-    if (localStorage.getItem('cookies') === null) {
-        localStorage.setItem('cookies', 0);
-    }
-}
+/* ==========================================
+   HitungWR — global behaviour
+   ========================================== */
 
-function res() {
-    // let sum = parseInt(localStorage.getItem('cookies'))
+/* ---------- Mobile navigation ---------- */
+(function () {
+    const toggle = document.getElementById("navToggle");
+    const nav = document.getElementById("primaryNav");
 
-    // if (sum == 0) {
-    //     window.open('https://www.effectivecpmgate.com/swqh6tcn3k?key=163b8eee7c2fbbbdae754cb90a81d9f7', '_blank');
-    // } else {
-    validation();
-    // }
-    // localStorage.setItem('cookies', 1);
+    if (!toggle || !nav) return;
 
-}
+    const setState = function (open) {
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+    };
 
-function welcomeMsg() {
-    const welcomeMsgEl = document.querySelector("#welcomeMsg");
-    let array = 0;
+    toggle.addEventListener("click", function () {
+        setState(!nav.classList.contains("is-open"));
+    });
 
-    const takapedia = `<a href="https://takapedia.com/" target="_blank">takapedia</a>`;
-    const takapediaIG = `<a href="https://www.instagram.com/taka_pedia/" target="_blank">taka_pedia</a>`;
-    const takapediaWA = `<a href="https://api.whatsapp.com/send?phone=6287843920288" target="_blank">6287843920288</a>`;
+    // Tutup menu begitu sebuah link diklik
+    nav.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setState(false);
+    });
 
-    let arrayEl = [
-        `<p class="animation mb-0 text-truncate">Follow ig takapedia untuk ingfo flashsale</p>`,
-        `<p class="animation mb-0 text-truncate">IG: ${takapediaIG} / WA: ${takapediaWA}</p>`,
-        `<p class="animation mb-0 text-truncate">Gas langsung joki di ${takapedia} banh 😅☝️</p>`,
-    ];
-    setInterval(() => {
-        welcomeMsgEl.innerHTML = arrayEl[array];
+    // Kembalikan ke layout desktop
+    window.addEventListener("resize", function () {
+        if (window.innerWidth > 900) setState(false);
+    });
 
-        array++;
-        if (array >= arrayEl.length) {
-            array = 0;
+    // Tutup dengan tombol Escape
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") setState(false);
+    });
+})();
+
+/* ---------- Sticky header state ---------- */
+(function () {
+    const header = document.getElementById("siteHeader");
+    if (!header) return;
+
+    const onScroll = function () {
+        header.classList.toggle("is-scrolled", window.scrollY > 8);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+})();
+
+/* ---------- Submit kalkulator ---------- */
+(function () {
+    const form = document.querySelector("#calcForm");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        res();
+    });
+
+    form.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            res();
         }
-    }, 5000);
+    });
+})();
+
+/* ---------- Dipakai oleh semua halaman kalkulator ---------- */
+function res() {
+    validation();
 }
-
-window.dataLayer = window.dataLayer || [];
-
-function gtag() { dataLayer.push(arguments); }
-gtag('js', new Date());
-
-gtag('config', 'UA-206846692-3');

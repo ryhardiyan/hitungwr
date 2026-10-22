@@ -1,6 +1,10 @@
-// Variables
+// ==========================================
+//  Win & Lose — Kalkulator
+// ==========================================
+
 const hasil = document.querySelector("#hasil");
 const resultText = document.querySelector("#resultText");
+const resultBox = document.querySelector("#resultBox");
 
 // Functions
 function validation() {
@@ -13,24 +17,26 @@ function validation() {
     let text = "";
     if (isNaN(tMatch) || isNaN(tWr)) {
         text = `Field harus diisi bro.`;
-        display(text);
+        display(text, true);
     } else if (tMatch < 0 || tWr < 0) {
         text = `Field tidak boleh lebih kecil dari 0`;
-        display(text);
+        display(text, true);
     } else if (tMatch % 1 != 0) {
         text = `Field harus bilangan bulat`;
-        display(text);
+        display(text, true);
     } else if (tWr > 100) {
         text = `WR tidak boleh lebih dari 100%`;
-        display(text);
+        display(text, true);
     } else {
         text = `Total win: <b>${winNum}</b> match <br> Total lose: <b>${loseNum}</b> match <br>`;
-        display(text);
+        display(text, false);
     }
 }
 
-function display(text) {
-    return resultText.innerHTML = text;
+function display(text, isError) {
+    resultText.innerHTML = text;
+    resultBox.classList.toggle("is-error", !!isError);
+    resultBox.classList.add("is-visible");
 }
 
 function win(tMatch, tWr) {
@@ -45,14 +51,7 @@ function lose(tMatch, tWr) {
 window.addEventListener("load", init);
 
 function init() {
-    load();
     eventListener();
-}
-
-function load() {
-    checkLS();
-
-    welcomeMsg();
 }
 
 function eventListener() {

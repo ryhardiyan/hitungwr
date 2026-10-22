@@ -3,7 +3,7 @@
 // ==========================================
 
 .result {
-    display: flex;
+    display: none;
     align-items: flex-start;
     gap: 14px;
     margin-top: 22px;
@@ -11,15 +11,10 @@
     background: linear-gradient(135deg, rgba(0, 226, 122, 0.11) 0%, rgba(0, 226, 122, 0.03) 100%);
     border: 1px solid rgba(0, 226, 122, 0.28);
     border-radius: $radius;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition: opacity $speed $ease, transform $speed $ease, visibility $speed $ease;
 
     &.is-visible {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+        display: flex;
+        animation: result-in 0.32s $ease both;
     }
 
     // Error state
@@ -100,4 +95,16 @@
 
 .result.is-error .result__text b {
     color: $danger;
+}
+
+@keyframes result-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -1,139 +1,203 @@
-import Link from 'next/link'
-import { ArrowRight, MessageCircle, CreditCard, Heart, Users, Coffee } from 'lucide-react'
-import { DonationCard } from '@/components/donation/donation-card'
-import { RecentDonations } from '@/components/donation/recent-donations'
-import { SupportButtons } from '@/components/donation/support-buttons'
+import Link from "next/link"
+import { calculateWR } from "@/lib/calc"
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="flex-1">
-      <nav className="fixed w-full z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-saweria-pink">
-            <CreditCard className="h-6 w-6" />
-            <span className="font-bold">HitungWR</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/" className="text-foreground hover:text-saweria-pink transition-colors">
-              Beranda
-            </Link>
-            <Link href="#donasi" className="text-foreground hover:text-saweria-pink transition-colors">
-              Donasi
-            </Link>
-            <Link href="#dukungan" className="text-foreground hover:text-saweria-pink transition-colors">
-              Dukungan
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <section className="pt-24 pb-16 px-4">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-12 gap-8">
+    <>
+      {/* Hero Section */}
+      <section className="pt-16 pb-20 px-4">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-[#00e27a]">
+              <span className="w-2 h-2 rounded-full bg-[#00e27a] animate-pulse" />
+              Gratis &bull; Tanpa Login &bull; 100% Privat
+            </div>
             
-            {/* Creator Profile Column */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="sticky top-24">
-                <div className="text-center space-y-4">
-                  <div className="relative inline-block">
-                    <img
-                      src="https://ui-avatars.com/api/?name=HitungWR&background=e91e63&color=fff&size=256"
-                      alt="HitungWR"
-                      className="w-32 h-32 rounded-full object-cover border-4 border-saweria-pink/20 shadow-lg"
-                    />
-                    <div className="absolute bottom-0 right-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center border-2 border-white shadow-md">
-                      <span className="text-[10px] text-white font-bold">●</span>
-                    </div>
-                  </div>
-                  <h1 className="text-2xl font-bold tracking-tight">HitungWR</h1>
-                  <p className="text-muted-foreground text-sm">
-                    Kalkulator Win Rate MLBB · Dukungan komunitas
-                  </p>
-                  <div className="flex justify-center gap-3">
-                    <a
-                      href="https://github.com/ryhardev"
-                      className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-saweria-pink hover:bg-saweria-pink hover:text-white transition-colors"
-                    >
-                      <ArrowRight className="h-5 w-5" />
-                    </a>
-                    <a
-                      href="#donasi"
-                      className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-saweria-pink hover:bg-saweria-pink hover:text-white transition-colors"
-                    >
-                      <Heart className="h-5 w-5" />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  <div className="flex items-center justify-between bg-secondary/50 p-4 rounded-xl text-sm">
-                    <span className="font-medium">Total Terkumpul</span>
-                    <span className="font-bold text-saweria-pink">Rp 0</span>
-                  </div>
-                  <div className="flex items-center justify-between bg-secondary/50 p-4 rounded-xl text-sm">
-                    <span className="font-medium">Jumlah Donatur</span>
-                    <span className="font-bold">0 orang</span>
-                  </div>
-                </div>
-
-                <SupportButtons />
-              </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold leading-[1.05] tracking-tight">
+              Hitung Win Rate MLBB<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e27a] to-[#34d399]">
+                Dengan Presisi
+              </span>
+            </h1>
+            
+            <p className="text-[#a1a1aa] text-lg max-w-lg leading-relaxed">
+              Win rate kamu mentok di 60% padahal sudah ratusan match? 
+              Masukkan data match kamu, dan langsung tahu berapa win lagi 
+              yang harus kamu kejar untuk sampai ke target rank.
+            </p>
+            
+            <div className="flex flex-wrap gap-3">
+              <a href="/kalkulator" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#00e27a] to-[#34d399] text-[#04150d] font-bold text-sm hover:opacity-90 transition-opacity shadow-green">
+                Hitung WR Sekarang
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <a href="#tools" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white/10 transition-colors">
+                Lihat Semua Alat
+              </a>
             </div>
 
-            {/* Donation Form Column */}
-            <div className="lg:col-span-8 space-y-6">
-              <div className="card max-w-2xl mx-auto">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-xl font-bold">Beri Dukungan</h2>
-                    <p className="text-muted-foreground text-sm">
-                      Donasimu membantu pengembangan HitungWR
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs text-green-600 font-medium">Aktif</span>
-                  </div>
-                </div>
-
-                <DonationCard />
-              </div>
-
-              <RecentDonations />
+            <div className="flex flex-wrap gap-6 pt-2">
+              <TrustItem icon="✓" text="100% Gratis" />
+              <TrustItem icon="✓" text="Tanpa Install" />
+              <TrustItem icon="✓" text="Data Privat" />
             </div>
+          </div>
 
+          <div className="relative">
+            <CalculatorCard />
           </div>
         </div>
       </section>
 
-      <section id="dukungan" className="py-16 border-t bg-secondary/30 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl font-bold mb-8">Cara Lain Mendukung</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-xl bg-white border border-input">
-              <Coffee className="w-12 h-12 text-saweria-pink mx-auto mb-4" />
-              <h3 className="font-semibold mb-2">Beli Kopi</h3>
-              <p className="text-sm text-muted-foreground">
-                Belikan kreator secangkir kopi untuk semangat ngoding.
+      {/* Tools Grid */}
+      <section id="tools" className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#00e27a] mb-3 block">Semua Alat</span>
+            <h2 className="text-3xl md:text-4xl font-display font-extrabold text-white mb-4">Tiga Kalkulator, Satu Tujuan</h2>
+            <p className="text-[#a1a1aa]">Semua kebutuhan soal win rate bisa kamu selesaikan di sini, tanpa install apa pun.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <ToolCard
+              num="01"
+              title="Kalkulator WR"
+              desc="Hitung berapa match tambahan yang kamu butuhkan — win atau lose — untuk mencapai target win rate."
+              href="/kalkulator"
+              icon="chart"
+            />
+            <ToolCard
+              num="02"
+              title="Cek Win & Lose"
+              desc="Punya angka WR tapi bingung total win dan total lose kamu? Masukkan data dan langsung dapat angkanya."
+              href="/winlose"
+              icon="chart"
+            />
+            <ToolCard
+              num="03"
+              title="Simulasi Lose Streak"
+              desc="Lagi telat 5 game berturut-turut? Cek dulu dampaknya ke win rate kamu sebelum panik."
+              href="/losestreak"
+              icon="chart"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-12 px-4 border-y border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatBox value="3" label="Kalkulator Siap Pakai" />
+            <StatBox value="0" label="Data Tersimpan di Server" />
+            <StatBox value="100%" label="Gratis Selamanya" />
+            <StatBox value="<1s" label="Waktu Hitung" />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#00e27a]/20 via-[#00e27a]/5 to-transparent" />
+            <div className="relative p-8 md:p-12 text-center">
+              <h2 className="text-2xl md:text-3xl font-display font-extrabold text-white mb-4">
+                Mau tahu target WR kamu?
+              </h2>
+              <p className="text-[#a1a1aa] max-w-lg mx-auto mb-6">
+                Kalkulator utama bisa kasih tahu berapa win lagi yang harus kamu kejar supaya WR kamu sampai di target.
               </p>
-            </div>
-            <div className="p-6 rounded-xl bg-white border border-input">
-              <Users className="w-12 h-12 text-saweria-pink mx-auto mb-4" />
-              <h3 className="font-semibold mb-2">Share ke Teman</h3>
-              <p className="text-sm text-muted-foreground">
-                Bantu menyebarkan HitungWR ke komunitas MLBB.
-              </p>
-            </div>
-            <div className="p-6 rounded-xl bg-white border border-input">
-              <MessageCircle className="w-12 h-12 text-saweria-pink mx-auto mb-4" />
-              <h3 className="font-semibold mb-2">Berikan Masukan</h3>
-              <p className="text-sm text-muted-foreground">
-                Sampaikan saran atau laporan bug untuk perbaikan fitur.
-              </p>
+              <a href="/kalkulator" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#00e27a] text-[#04150d] font-bold text-sm hover:opacity-90 transition-opacity">
+                Buka Kalkulator WR
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
       </section>
-    </main>
+    </>
+  )
+}
+
+function CalculatorCard() {
+  return (
+    <div className="relative rounded-2xl border border-white/10 bg-[rgba(20,20,24,0.95)] p-6 shadow-2xl backdrop-blur-xl">
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-[#00e27a]/30 via-transparent to-[#34d399]/20 pointer-events-none" />
+      <div className="relative">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-2 h-2 rounded-full bg-[#00e27a]" />
+          <span className="text-xs font-semibold text-[#00e27a] uppercase tracking-wider">Live Preview</span>
+        </div>
+        <h3 className="text-lg font-bold text-white mb-1">Kalkulator WR</h3>
+        <p className="text-sm text-[#a1a1aa] mb-4">Isi 3 data di bawah, lalu tekan hitung.</p>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-[#a1a1aa]">Total Match</label>
+            <div className="h-10 rounded-lg bg-white/5 border border-white/10 flex items-center px-3 text-[#6b6b76] text-sm">259</div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-[#a1a1aa]">WR Saat Ini</label>
+              <div className="h-10 rounded-lg bg-white/5 border border-white/10 flex items-center px-3 text-[#6b6b76] text-sm">76.4%</div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-[#a1a1aa]">Target WR</label>
+              <div className="h-10 rounded-lg bg-white/5 border border-white/10 flex items-center px-3 text-[#6b6b76] text-sm">80%</div>
+            </div>
+          </div>
+          <button className="w-full h-10 rounded-lg bg-gradient-to-r from-[#00e27a] to-[#34d399] text-[#04150d] font-bold text-sm flex items-center justify-center gap-2">
+            Hitung Sekarang
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TrustItem({ icon, text }: { icon: string; text: string }) {
+  return (
+    <div className="flex items-center gap-2 text-sm text-[#a1a1aa]">
+      <span className="w-5 h-5 rounded-full bg-[#00e27a]/10 flex items-center justify-center text-[#00e27a] text-xs">{icon}</span>
+      {text}
+    </div>
+  )
+}
+
+function ToolCard({ num, title, desc, href, icon }: { num: string; title: string; desc: string; href: string; icon: string }) {
+  return (
+    <Link href={href} className="group relative rounded-2xl border border-white/10 bg-[rgba(20,20,24,0.6)] p-6 hover:border-[#00e27a]/30 hover:bg-[rgba(20,20,24,0.9)] transition-all duration-300 hover:-translate-y-1">
+      <div className="flex items-start justify-between mb-4">
+        <span className="text-xs font-bold text-[#6b6b76] uppercase tracking-widest">{num}</span>
+        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#00e27a] group-hover:border-[#00e27a]/30 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+            <path d="M3 3v18h18" /><path d="m7 14 3-4 3 3 5-7" />
+          </svg>
+        </div>
+      </div>
+      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#00e27a] transition-colors">{title}</h3>
+      <p className="text-sm text-[#a1a1aa] leading-relaxed">{desc}</p>
+      <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-[#00e27a] opacity-0 group-hover:opacity-100 transition-opacity">
+        Mulai <ArrowRight className="w-4 h-4" />
+      </div>
+    </Link>
+  )
+}
+
+function StatBox({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+      <div className="text-2xl font-display font-extrabold text-white mb-1">{value}</div>
+      <div className="text-xs text-[#6b6b76]">{label}</div>
+    </div>
+  )
+}
+
+function ArrowRight({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
   )
 }

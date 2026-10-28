@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     description: "Kalkulator WR gratis. Tentukan berapa win yang kamu butuh untuk mencapai target winrate kamu.",
     type: "website",
   },
+  twitter: {
+    card: "summary",
+    title: "HitungWR — Kalkulator Win Rate MLBB",
+    description: "Kalkulator WR gratis. Tentukan berapa win yang kamu butuh untuk mencapai target winrate kamu.",
+  },
 }
 
 export default function RootLayout({
@@ -37,17 +42,15 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] antialiased">
-        {/* Background effects */}
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(60rem_40rem_at_15%_-10%,rgba(0,226,122,0.13),transparent_60%),radial-gradient(50rem_34rem_at_92%_5%,rgba(52,211,153,0.1),transparent_62%)]" />
-          <div className="absolute inset-0 opacity-[0.022]" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)',
-            backgroundSize: '56px 56px'
-          }} />
+      <body className="min-h-screen bg-surface-900 text-white antialiased">
+        {/* Background Effects */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#00e27a]/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 -right-20 w-72 h-72 bg-[#34d399]/8 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-[#00e27a]/5 rounded-full blur-3xl" />
         </div>
         
-        <div className="relative z-10 flex flex-col flex-1">
+        <div className="relative z-10 flex flex-col min-h-screen">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

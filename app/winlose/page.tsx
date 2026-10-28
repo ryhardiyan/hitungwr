@@ -2,71 +2,70 @@
 
 import { useState } from "react"
 import { calculateWinLose } from "@/lib/calc"
+import { TrendingUp } from "lucide-react"
 
 export default function WinLosePage() {
   const [match, setMatch] = useState("")
   const [wr, setWr] = useState("")
-  const [result, setResult] = useState<string | null>(null)
-  const [error, setError] = useState(false)
+  const [result, setResult] = useState<{ text: string; isError: boolean } | null>(null)
 
   const handleCalculate = () => {
     const m = parseFloat(match)
     const w = parseFloat(wr)
 
     if (isNaN(m) || isNaN(w)) {
-      setResult("Semua field harus diisi.")
-      setError(true)
+      setResult({ text: "Semua field harus diisi.", isError: true })
       return
     }
     if (m < 0 || w < 0) {
-      setResult("Field tidak boleh negatif.")
-      setError(true)
+      setResult({ text: "Field tidak boleh negatif.", isError: true })
       return
     }
     if (m % 1 !== 0) {
-      setResult("Total match harus bilangan bulat.")
-      setError(true)
+      setResult({ text: "Total match harus bilangan bulat.", isError: true })
       return
     }
     if (w > 100) {
-      setResult("WR tidak boleh lebih dari 100%.")
-      setError(true)
+      setResult({ text: "WR tidak boleh lebih dari 100%.", isError: true })
       return
     }
 
-    const res = calculateWinLose(m, w)
-    setResult(res.text)
-    setError(res.isError)
+    setResult(calculateWinLose(m, w))
   }
 
   return (
-    <section className="py-12 px-4">
+    <section className="py-10 md:py-16 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#00e27a] mb-3 block">Alat 02</span>
-          <h1 className="text-3xl md:text-4xl font-display font-extrabold text-white mb-3">Cek Total Win & Lose</h1>
-          <p className="text-[#a1a1aa] max-w-lg mx-auto">
-            Punya angka win rate tapi bingung total win dan total lose kamu? Isi dua data ini, langsung ketahuan.
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#00e27a]/10 border border-[#00e27a]/20 text-xs font-semibold text-[#00e27a] mb-4">
+            <TrendingUp className="w-3 h-3" />
+            Cek Total Win & Lose
+          </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold text-white mb-3">
+            Berapa Win dan Lose Kamu?
+          </h1>
+          <p className="text-[#a1a1aa] text-sm sm:text-base max-w-lg mx-auto">
+            Masukkan total match dan win rate, langsung tahu berapa win dan lose kamu.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr,380px] gap-6">
-          <div className="rounded-2xl border border-white/10 bg-[rgba(20,20,24,0.8)] p-6 backdrop-blur-xl">
+        <div className="grid lg:grid-cols-[1fr,340px] gap-6">
+          <div className="rounded-2xl border border-white/10 bg-surface-800/50 backdrop-blur-sm p-5 sm:p-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#a1a1aa] mb-1.5">Total Match Kamu</label>
+                <label className="block text-sm font-medium text-[#a1a1aa] mb-1.5">Total Match</label>
                 <input
                   type="number"
                   placeholder="Contoh: 259"
                   inputMode="numeric"
                   value={match}
                   onChange={(e) => setMatch(e.target.value)}
-                  className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-[#6b6b76] focus:border-[#00e27a]/50 focus:outline-none focus:ring-2 focus:ring-[#00e27a]/20 transition-all"
+                  className="w-full h-11 px-4 rounded-xl bg-surface-900/60 border border-white/10 text-white placeholder-[#6b6b76] focus:border-[#00e27a]/50 focus:outline-none focus:ring-1 focus:ring-[#00e27a]/30 transition-all text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#a1a1aa] mb-1.5">Win Rate Kamu</label>
+                <label className="block text-sm font-medium text-[#a1a1aa] mb-1.5">Win Rate</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -75,64 +74,54 @@ export default function WinLosePage() {
                     inputMode="decimal"
                     value={wr}
                     onChange={(e) => setWr(e.target.value)}
-                    className="w-full h-11 px-4 pr-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-[#6b6b76] focus:border-[#00e27a]/50 focus:outline-none focus:ring-2 focus:ring-[#00e27a]/20 transition-all"
+                    className="w-full h-11 px-4 pr-10 rounded-xl bg-surface-900/60 border border-white/10 text-white placeholder-[#6b6b76] focus:border-[#00e27a]/50 focus:outline-none focus:ring-1 focus:ring-[#00e27a]/30 transition-all text-sm"
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b6b76] text-sm font-medium">%</span>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6b6b76] text-sm">%</span>
                 </div>
               </div>
 
               <button
                 onClick={handleCalculate}
-                className="w-full h-12 rounded-xl bg-gradient-to-r from-[#00e27a] to-[#34d399] text-[#04150d] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                className="w-full h-11 rounded-xl bg-[#00e27a] text-surface-900 font-bold text-sm hover:bg-[#34d399] transition-colors flex items-center justify-center gap-2"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                  <path d="M16 3h5v5M8 3H3v5M21 3l-7.5 7.5M3 21l7.5-7.5M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
+                <TrendingUp className="w-4 h-4" />
                 Hitung Sekarang
               </button>
             </div>
 
             {result && (
-              <div className={`mt-4 p-4 rounded-xl border ${error ? "bg-[rgba(251,113,133,0.1)] border-[rgba(251,113,133,0.3)]" : "bg-[rgba(0,226,122,0.1)] border-[rgba(0,226,122,0.3)]"}`}>
+              <div className={`mt-4 p-4 rounded-xl border ${
+                result.isError ? "bg-red-500/10 border-red-500/20" : "bg-[#00e27a]/10 border-[#00e27a]/20"
+              }`}>
                 <div className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${error ? "bg-[rgba(251,113,133,0.2)] text-[#fb7185]" : "bg-[rgba(0,226,122,0.2)] text-[#00e27a]"}`}>
-                    {error ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    result.isError ? "bg-red-500/20 text-red-400" : "bg-[#00e27a]/20 text-[#00e27a]"
+                  }`}>
+                    {result.isError ? (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path d="M20 6 9 17l-5-5"/></svg>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                     )}
                   </div>
-                  <div>
-                    <span className={`text-xs font-bold uppercase tracking-widest ${error ? "text-[#fb7185]" : "text-[#00e27a]"}`}>Hasil</span>
-                    <p className="mt-1 text-sm text-white leading-relaxed" dangerouslySetInnerHTML={{ __html: result }} />
-                  </div>
+                  <p className="text-sm text-white leading-relaxed" dangerouslySetInnerHTML={{ __html: result.text }} />
                 </div>
               </div>
             )}
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-2xl border border-white/10 bg-[rgba(20,20,24,0.6)] p-6">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#00e27a] mb-3 block">Penjelasan</span>
-              <h3 className="text-lg font-bold text-white mb-3">Cara Kerjanya</h3>
-              <div className="space-y-3 text-sm text-[#a1a1aa] leading-relaxed">
-                <p>
-                  Win rate itu persentase. Kalau kamu main <code className="text-[#00e27a]">200</code> match dengan win rate <code className="text-[#00e27a]">60%</code>, berarti dari 200 match itu sekitar <code className="text-[#00e27a]">120</code> win dan <code className="text-[#00e27a]">80</code> lose.
-                </p>
-                <code className="block p-3 rounded-lg bg-black/30 border border-white/10 font-mono text-[#00e27a] text-xs">
-                  Total Win = Match × (WR ÷ 100)<br />
-                  Total Lose = Match - Win
-                </code>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-[rgba(20,20,24,0.6)] p-6">
-              <h3 className="text-sm font-bold text-white mb-3">Alat Terkait</h3>
-              <div className="space-y-2">
-                <NavLink href="/kalkulator">Kalkulator WR Target</NavLink>
-                <NavLink href="/losestreak">Simulasi Lose Streak</NavLink>
-              </div>
-            </div>
+            <InfoCard
+              title="Cara Kerja"
+              content="Total Win = Match × (WR ÷ 100)"
+            />
+            <InfoCard
+              title="Contoh"
+              items={[
+                "200 match dengan WR 60% = 120 win, 80 lose",
+                "Hasil dibulatkan ke bilangan bulat terdekat",
+                "Data diproses di browser, tidak dikirim ke server",
+              ]}
+            />
           </div>
         </div>
       </div>
@@ -140,11 +129,21 @@ export default function WinLosePage() {
   )
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function InfoCard({ title, content, items }: { title: string; content?: string; items?: string[] }) {
   return (
-    <a href={href} className="flex items-center gap-2 text-sm text-[#a1a1aa] hover:text-[#00e27a] transition-colors py-1">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 flex-shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      {children}
-    </a>
+    <div className="rounded-xl border border-white/10 bg-surface-800/30 p-4">
+      <h3 className="text-sm font-bold text-white mb-2">{title}</h3>
+      {content && <p className="text-xs text-[#a1a1aa] font-mono bg-surface-900/50 rounded-lg p-2.5">{content}</p>}
+      {items && (
+        <ul className="space-y-1.5">
+          {items.map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-xs text-[#a1a1aa]">
+              <span className="text-[#00e27a] mt-0.5 flex-shrink-0">•</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
